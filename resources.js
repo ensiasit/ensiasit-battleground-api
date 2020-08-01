@@ -3,57 +3,77 @@ const router = express.Router();
 
 const joi = require("joi");
 
-const schema = joi.object({
+const schemaPOST = joi.object({
   field1: joi.string().min(6).max(12).required(),
   field2: joi.number().integer().positive().required(),
   field3: joi.string().uri(),
 });
 
-/**no
- * Get all resources
- */
-router.get("/", (req, res, next) => {
-  res.json("GET all");
+const schemaPUT = joi.object({
+  field1: joi.string().min(6).max(12),
+  field2: joi.number().integer().positive(),
+  field3: joi.string().uri(),
 });
 
-/**
- * Get a single resource by id
- */
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-  res.json(`GET one ${id}`);
+const { MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env;
+const db = require("monk")(`${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`);
+const resources = db.get("resources");
+
+router.get("/", async (req, res, next) => {
+  try {
+    const all = await resources.find({});
+    res.json(all);
+  } catch (err) {
+    next(err);
+  }
 });
 
-/**
- * Add a new resource
- */
+router.get("/:_id", async (req, res, next) => {
+  const { _id } = req.params;
+  const searched = await resources.findOne({ _id });
+  if (!searched) {
+    throw res.status(404).send(`No document with {_id:"${_id}"} found.`);
+  }
+  res.json(searched);
+});
+
 router.post("/", async (req, res, next) => {
   try {
-    const resource = await schema.validateAsync(req.body);
-    res.json(`POST ${resource}`);
+    const resource = await schemaPOST.validateAsync(req.body);
+    const inserted = await resources.insert(resource);
+    res.json(inserted);
   } catch (err) {
     next(err);
   }
 });
 
-/**
- * Update an existing resource
- */
-router.put("/:id", async (req, res, next) => {
+router.put("/:_id", async (req, res, next) => {
   try {
-    const resource = await schema.validateAsync(req.body);
-    res.json(`PUT ${req.params.id} : ${JSON.stringify(resource)}`);
+    const { _id } = req.params;
+    const resource = await schemaPUT.validateAsync(req.body);
+    const searched = await resources.findOne({ _id });
+    if (!searched) {
+      throw res.status(404).send(`No document with {_id:"${_id}"} found.`);
+    }
+    await resources.update({ _id }, { $set: resource });
+    res.json(searched);
   } catch (err) {
     next(err);
   }
 });
 
-/**
- * Delete an existing resource
- */
-router.delete("/:id", (req, res, next) => {
-  const { id } = req.params;
-  res.json(`DELETE ${id}`);
+router.delete("/:_id", async (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const searched = await resources.findOne({ _id });
+    if (!searched) {
+      throw res.status(404).send(`No document with {_id:"${_id}"} found.`);
+    }
+    await resources.remove({ _id });
+    res.json(searched);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

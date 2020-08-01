@@ -11,7 +11,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "joi": "^17.1.1"
+    "joi": "^17.1.1",
+    "monk": "^7.3.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
