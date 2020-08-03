@@ -50,10 +50,10 @@ jobs:
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
-      - name: Log into registry
+      - name: Log into github docker registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-      - name: Push image
+      - name: Push image to github docker registry
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
           IMAGE_VERSION=latest
@@ -63,3 +63,18 @@ jobs:
           
           docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_VERSION
           docker push $IMAGE_ID:$IMAGE_VERSION
+          
+      - name: Log into docker hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ensiasitclub --password-stdin
+        
+      - name: Push image to docker hub
+        run: |
+          IMAGE_ID=ensiasitclub/$IMAGE_NAME
+          IMAGE_VERSION=latest
+          
+          echo IMAGE_ID=$IMAGE_ID
+          echo IMAGE_VERSION=$IMAGE_VERSION
+          
+          docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_VERSION
+          docker push $IMAGE_ID:$IMAGE_VERSION
+
