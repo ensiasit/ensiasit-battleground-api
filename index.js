@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 
-const resources = require("./resources");
+const resources = require("./routes/resource");
 
 app.use(express.json());
 
