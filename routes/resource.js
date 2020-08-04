@@ -11,9 +11,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:_id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
-    await resourcesDAO.getOne(req.params._id, (result) => res.json(result));
+    await resourcesDAO.getOne(req.params.id, (result) => res.json(result));
   } catch (err) {
     next(err);
   }
@@ -27,9 +27,9 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:_id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    await resourcesDAO.updateOne(req.params._id, req.body, (result) =>
+    await resourcesDAO.updateOne(req.params.id, req.body, (result) =>
       res.json(result)
     );
   } catch (err) {
@@ -37,9 +37,9 @@ router.put("/:_id", async (req, res, next) => {
   }
 });
 
-router.delete("/:_id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
-    await resourcesDAO.deleteOne(req.params._id, (result) => res.json(result));
+    await resourcesDAO.deleteOne(req.params.id, (result) => res.json(result));
   } catch (err) {
     next(err);
   }

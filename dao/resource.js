@@ -16,12 +16,12 @@ const getAll = async (next) => {
   }
 };
 
-const getOne = async (_id, next) => {
+const getOne = async (field1, next) => {
   const database = connect();
   const resources = database.get(collection);
   let result = null;
   try {
-    result = await resources.findOne({ _id });
+    result = await resources.findOne({ field1 });
     next(result);
   } catch (err) {
     throw err;
@@ -45,13 +45,13 @@ const addOne = async (record, next) => {
   }
 };
 
-const updateOne = async (_id, record, next) => {
+const updateOne = async (field1, record, next) => {
   const database = connect();
   const resources = database.get(collection);
   let result = null;
   try {
     const validRecord = await validatePUT(record);
-    result = await resources.update({ _id }, { $set: validRecord });
+    result = await resources.update({ field1 }, { $set: validRecord });
     next(result);
   } catch (err) {
     throw err;
@@ -60,12 +60,12 @@ const updateOne = async (_id, record, next) => {
   }
 };
 
-const deleteOne = async (_id, next) => {
+const deleteOne = async (field1, next) => {
   const database = connect();
   const resources = database.get(collection);
   let result = null;
   try {
-    result = await resources.remove({ _id });
+    result = await resources.remove({ field1 });
     next(result);
   } catch (err) {
     throw err;

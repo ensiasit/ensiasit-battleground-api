@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit"
+    "test": "mocha --recursive --exit 2>/dev/null"
   },
   "author": "",
   "license": "ISC",
