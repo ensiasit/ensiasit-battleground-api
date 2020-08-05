@@ -2,11 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
-
-const resources = require("./routes/resource");
-
 app.use(express.json());
 
+const morgan = require("morgan");
+app.use(morgan("common"));
+
+const resources = require("./routes/resource");
 app.use("/api/resources", resources);
 
 const port = process.env.SERVER_PORT || 80;
