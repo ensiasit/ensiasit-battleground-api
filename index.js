@@ -1,13 +1,19 @@
+/**
+ * Imports
+ */
 require("dotenv").config();
-
 const express = require("express");
 const app = express();
-app.use(express.json());
-
 const morgan = require("morgan");
-app.use(morgan("common"));
-
+const notFound = require("./middlewares/notFound");
 const resources = require("./routes/resource");
+
+/**
+ * Middlewares
+ */
+app.use(express.json());
+app.use(morgan("common"));
+app.use(notFound);
 app.use("/api/resources", resources);
 
 const port = process.env.SERVER_PORT || 80;
