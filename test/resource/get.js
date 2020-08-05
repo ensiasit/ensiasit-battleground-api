@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 
 const server = require("../../index");
 
-module.exports = (id) => {
+module.exports = (id, notFoundId) => {
   describe("GET /api/resources", () => {
     it("Should return all resources", (done) => {
       chai
@@ -29,6 +29,17 @@ module.exports = (id) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it("Should not return the resource - Resource not found", (done) => {
+      chai
+        .request(server)
+        .get(`/api/resources/${notFoundId}`)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(404);
           done();
         });
     });

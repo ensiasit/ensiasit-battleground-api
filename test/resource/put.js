@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 
 const server = require("../../index");
 
-module.exports = (id, resource) => {
+module.exports = (id, notFoundId, resource) => {
   describe("PUT /api/resources/:id", () => {
     it("Should update the resource", (done) => {
       chai
@@ -17,6 +17,18 @@ module.exports = (id, resource) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("object");
+          done();
+        });
+    });
+
+    it("Should not update the resource - Resource not found", (done) => {
+      chai
+        .request(server)
+        .put(`/api/resources/${notFoundId}`)
+        .send(resource)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(404);
           done();
         });
     });
@@ -33,8 +45,6 @@ module.exports = (id, resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field1");
           done();
         });
     });
@@ -51,8 +61,6 @@ module.exports = (id, resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field2");
           done();
         });
     });
@@ -69,8 +77,6 @@ module.exports = (id, resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field3");
           done();
         });
     });

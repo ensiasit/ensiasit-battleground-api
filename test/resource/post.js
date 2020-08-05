@@ -31,8 +31,6 @@ module.exports = (resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field1");
           done();
         });
     });
@@ -49,8 +47,6 @@ module.exports = (resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field1");
           done();
         });
     });
@@ -64,8 +60,6 @@ module.exports = (resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field2");
           done();
         });
     });
@@ -82,8 +76,6 @@ module.exports = (resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field2");
           done();
         });
     });
@@ -100,8 +92,6 @@ module.exports = (resource) => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(500);
-          expect(res.text).to.contain("ValidationError");
-          expect(res.text).to.contain("field3");
           done();
         });
     });

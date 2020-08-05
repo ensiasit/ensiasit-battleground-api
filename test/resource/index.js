@@ -11,11 +11,11 @@ const resource = {
 
 postTest(resource);
 
-putTest(resource.field1, {
+putTest(resource.field1, "dummy", {
   ...resource,
   field3: "http://www.amazon.com",
 });
 
-getTest(resource.field1);
+getTest(resource.field1, "dummy");
 
-deleteTest(resource.field1);
+deleteTest(resource.field1, "dummy");
