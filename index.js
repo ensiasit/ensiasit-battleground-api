@@ -1,7 +1,7 @@
 /**
  * Imports
  */
-require("dotenv").config();
+require("dotenv").config({ path: process.env.ENV_FILE_PATH || ".dev.env" });
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
