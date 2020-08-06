@@ -65,7 +65,7 @@ jobs:
           docker push $IMAGE_ID:$IMAGE_VERSION
           
       - name: Log into docker hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ensiasitclub --password-stdin
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ensiasitclub --password-stdin
         
       - name: Push image to docker hub
         run: |
