@@ -12,8 +12,8 @@ const judge = {
 
 postTest(judge);
 
-putTest(resource.username, "invalid-username", judge);
+putTest(judge.username, "invalid-username", judge);
 
-getTest(resource.username, "invalid-username");
+getTest(judge.username, "invalid-username");
 
-deleteTest(resource.username, "invalid-username");
+deleteTest(judge.username, "invalid-username");
