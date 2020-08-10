@@ -6,12 +6,12 @@ chai.use(chaiHttp);
 
 const server = require("../../index");
 
-module.exports = (id, notFoundId) => {
-  describe("DELETE /api/resources/:id", () => {
-    it("Should delete the resource", (done) => {
+module.exports = (username, notFoundUsername) => {
+  describe("DELETE /api/judges/:username", () => {
+    it("Should delete the judge", (done) => {
       chai
         .request(server)
-        .delete(`/api/resources/${id}`)
+        .delete(`/api/judges/${username}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -19,10 +19,10 @@ module.exports = (id, notFoundId) => {
         });
     });
 
-    it("Should not delete the resource - Resource not found", (done) => {
+    it("Should not delete the judge - Judge not found", (done) => {
       chai
         .request(server)
-        .delete(`/api/resources/${notFoundId}`)
+        .delete(`/api/judges/${notFoundUsername}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
