@@ -3,6 +3,7 @@ const { collection, validatePOST, validatePUT } = require("../models/judge");
 const connect = require("../database");
 
 const NotFoundError = require("../errors/notFoundError");
+const AlreadyExistsError = require("../errors/alreadyExistsError");
 
 const getAll = async (next) => {
   const database = connect();
@@ -37,11 +38,15 @@ const getOne = async (username, next) => {
 const addOne = async (record, next) => {
   const database = connect();
   const judges = database.get(collection);
-  let result = null;
   try {
     const validRecord = await validatePOST(record);
-    result = await judges.insert(validRecord);
-    next(result);
+    const exists = await judges.findOne({ username: validRecord.username });
+    if (!exists) {
+      const result = await judges.insert(validRecord);
+      next(result);
+    } else {
+      throw AlreadyExistsError();
+    }
   } catch (err) {
     throw err;
   } finally {
