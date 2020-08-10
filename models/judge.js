@@ -1,15 +1,26 @@
 const joi = require("joi");
 
 const schemaPOST = joi.object({
-  field1: joi.string().min(6).max(12).required(),
-  field2: joi.number().integer().positive().required(),
-  field3: joi.string().uri(),
+  name: joi.string().min(4).max(16).required(),
+  username: joi
+    .string()
+    .min(4)
+    .max(16)
+    .regex(/[a-z0-9\\-]*/)
+    .required(),
+  password: joi.string().min(8).max(16).required(),
+  email: joi.string().email().required(),
 });
 
 const schemaPUT = joi.object({
-  field1: joi.string().min(6).max(12),
-  field2: joi.number().integer().positive(),
-  field3: joi.string().uri(),
+  name: joi.string().min(4).max(16),
+  username: joi
+    .string()
+    .min(4)
+    .max(16)
+    .regex(/[a-z0-9\\-]*/),
+  password: joi.string().min(8).max(16),
+  email: joi.string().email(),
 });
 
 const validatePOST = async (record) => {
@@ -31,7 +42,7 @@ const validatePUT = async (record) => {
 };
 
 module.exports = {
-  collection: "resources",
+  collection: "judges",
   validatePOST,
   validatePUT,
 };

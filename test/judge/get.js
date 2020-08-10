@@ -6,26 +6,25 @@ chai.use(chaiHttp);
 
 const server = require("../../index");
 
-module.exports = (id, notFoundId) => {
-  describe("GET /api/resources", () => {
-    it("Should return all resources", (done) => {
+module.exports = (username, notFoundUsername) => {
+  describe("GET /api/judges", () => {
+    it("Should return all judges", (done) => {
       chai
         .request(server)
-        .get("/api/resources")
+        .get("/api/judges")
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
-          expect(res.body).to.be.an("array");
           done();
         });
     });
   });
 
-  describe("GET /api/resources/:id", () => {
-    it("Should return the resource", (done) => {
+  describe("GET /api/judges/:username", () => {
+    it("Should return the judge", (done) => {
       chai
         .request(server)
-        .get(`/api/resources/${id}`)
+        .get(`/api/judges/${username}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -33,10 +32,10 @@ module.exports = (id, notFoundId) => {
         });
     });
 
-    it("Should not return the resource - Resource not found", (done) => {
+    it("Should not return the judge - Judge not found", (done) => {
       chai
         .request(server)
-        .get(`/api/resources/${notFoundId}`)
+        .get(`/api/judges/${notFoundUsername}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
