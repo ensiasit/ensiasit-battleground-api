@@ -7,6 +7,7 @@ const app = express();
 const morgan = require("morgan");
 const notFound = require("./middlewares/notFound");
 const resources = require("./routes/resource");
+const judges = require("./routes/judge");
 
 /**
  * Middlewares
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(morgan("common"));
 app.use(notFound);
 app.use("/api/resources", resources);
+app.use("/api/judges", judges);
 
 const port = process.env.SERVER_PORT || 80;
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
