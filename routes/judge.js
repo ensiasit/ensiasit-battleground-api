@@ -35,6 +35,8 @@ router.post("/", async (req, res) => {
   } catch (err) {
     if (err.isJoi) {
       res.status(400).send(err.message);
+    } else if (err.isAlreadyExists) {
+      res.status(403).send(err.message);
     } else {
       res.status(500).send("Internal Server Error");
     }
