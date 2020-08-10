@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 const server = require("../../index");
 
 module.exports = (judge) => {
-  describe("POST /api/judges/:username", () => {
+  describe("POST /api/judges", () => {
     it("Should add a new judge", (done) => {
       chai
         .request(server)

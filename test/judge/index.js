@@ -4,10 +4,10 @@ const getTest = require("./get");
 const deleteTest = require("./delete");
 
 const judge = {
-  name: "",
-  username: "",
-  password: "",
-  email: "",
+  name: "ENSIAS IT",
+  username: "ensias-it",
+  password: "P455w0rd",
+  email: "ensias-it@gmail.com",
 };
 
 postTest(judge);

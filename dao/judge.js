@@ -1,13 +1,14 @@
 const { collection, validatePOST, validatePUT } = require("../models/judge");
 
-const connect = require("../database/database");
+const connect = require("../database");
+
+const NotFoundError = require("../errors/notFoundError");
 
 const getAll = async (next) => {
   const database = connect();
   const judges = database.get(collection);
-  let result = null;
   try {
-    result = await judges.find({});
+    const result = await judges.find({});
     next(result);
   } catch (err) {
     throw err;
@@ -19,10 +20,13 @@ const getAll = async (next) => {
 const getOne = async (username, next) => {
   const database = connect();
   const judges = database.get(collection);
-  let result = null;
   try {
-    result = await judges.findOne({ username });
-    next(result);
+    const result = await judges.findOne({ username });
+    if (!result) {
+      throw NotFoundError();
+    } else {
+      next(result);
+    }
   } catch (err) {
     throw err;
   } finally {
@@ -48,11 +52,14 @@ const addOne = async (record, next) => {
 const updateOne = async (username, record, next) => {
   const database = connect();
   const judges = database.get(collection);
-  let result = null;
   try {
     const validRecord = await validatePUT(record);
-    result = await judges.update({ username }, { $set: validRecord });
-    next(result);
+    const result = await judges.update({ username }, { $set: validRecord });
+    if (result.n === 0) {
+      throw NotFoundError();
+    } else {
+      next(result);
+    }
   } catch (err) {
     throw err;
   } finally {
@@ -63,10 +70,13 @@ const updateOne = async (username, record, next) => {
 const deleteOne = async (username, next) => {
   const database = connect();
   const judges = database.get(collection);
-  let result = null;
   try {
-    result = await judges.remove({ username });
-    next(result);
+    const result = await judges.remove({ username });
+    if (result.deletedCount === 0) {
+      throw NotFoundError();
+    } else {
+      next(result);
+    }
   } catch (err) {
     throw err;
   } finally {

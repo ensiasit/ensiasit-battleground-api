@@ -27,7 +27,7 @@ module.exports = (username, notFoundUsername, judge) => {
         .send(judge)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(404);
           done();
         });
     });
@@ -43,7 +43,7 @@ module.exports = (username, notFoundUsername, judge) => {
         .send(invalidJudge)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res).to.have.status(404);
+          expect(res).to.have.status(400);
           done();
         });
     });
