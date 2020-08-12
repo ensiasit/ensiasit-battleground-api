@@ -5,73 +5,46 @@ const judgesDAO = require("../dao/judge");
 
 router.get("/", async (req, res) => {
   try {
-    await judgesDAO.getAll((result) => res.json(result));
-  } catch (err) {
-    if (err.isJoi) {
-      res.status(400).send(err.message);
-    } else {
-      res.status(500).send("Internal Server Error");
-    }
+    const judges = await judgesDAO.getAll();
+    res.json(judges);
+  } catch ({ status, message }) {
+    res.status(status || 500).send(message);
   }
 });
 
 router.get("/:username", async (req, res) => {
   try {
-    await judgesDAO.getOne(req.params.username, (result) => res.json(result));
-  } catch (err) {
-    if (err.isJoi) {
-      res.status(400).send(err.message);
-    } else if (err.isNotFound) {
-      res.status(404).send(err.message);
-    } else {
-      res.status(500).send("Internal Server Error");
-    }
+    const judge = await judgesDAO.getOne(req.params.username);
+    res.json(judge);
+  } catch ({ status, message }) {
+    res.status(status || 500).send(message);
   }
 });
 
 router.post("/", async (req, res) => {
   try {
-    await judgesDAO.addOne(req.body, (result) => res.json(result));
-  } catch (err) {
-    if (err.isJoi) {
-      res.status(400).send(err.message);
-    } else if (err.isAlreadyExists) {
-      res.status(403).send(err.message);
-    } else {
-      res.status(500).send("Internal Server Error");
-    }
+    const judge = await judgesDAO.addOne(req.body);
+    res.json(judge);
+  } catch ({ status, message }) {
+    res.status(status || 500).send(message);
   }
 });
 
 router.put("/:username", async (req, res) => {
   try {
-    await judgesDAO.updateOne(req.params.username, req.body, (result) =>
-      res.json(result)
-    );
-  } catch (err) {
-    if (err.isJoi) {
-      res.status(400).send(err.message);
-    } else if (err.isNotFound) {
-      res.status(404).send(err.message);
-    } else {
-      res.status(500).send("Internal Server Error");
-    }
+    const judge = await judgesDAO.updateOne(req.params.username, req.body);
+    res.json(judge);
+  } catch ({ status, message }) {
+    res.status(status || 500).send(message);
   }
 });
 
 router.delete("/:username", async (req, res) => {
   try {
-    await judgesDAO.deleteOne(req.params.username, (result) =>
-      res.json(result)
-    );
-  } catch (err) {
-    if (err.isJoi) {
-      res.status(400).send(err.message);
-    } else if (err.isNotFound) {
-      res.status(404).send(err.message);
-    } else {
-      res.status(500).send("Internal Server Error");
-    }
+    const judge = await judgesDAO.deleteOne(req.params.username);
+    res.json(judge);
+  } catch ({ status, message }) {
+    res.status(status || 500).send(message);
   }
 });
 
