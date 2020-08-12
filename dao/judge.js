@@ -1,86 +1,57 @@
-const { collection, validatePOST, validatePUT } = require("../models/judge");
+const Judge = require("../models/judge");
 
-const connect = require("../database");
+const { NotFoundError, AlreadyExists } = require("../errors");
 
-const NotFoundError = require("../errors/notFoundError");
-
-const getAll = async (next) => {
-  const database = connect();
-  const judges = database.get(collection);
+const getAll = async () => {
   try {
-    const result = await judges.find({});
-    next(result);
+    const judges = Judge.find({});
+    return judges;
   } catch (err) {
     throw err;
-  } finally {
-    database.close();
   }
 };
 
-const getOne = async (username, next) => {
-  const database = connect();
-  const judges = database.get(collection);
+const getOne = async (username) => {
   try {
-    const result = await judges.findOne({ username });
-    if (!result) {
-      throw NotFoundError();
+    const judge = await Judge.findOne({ username });
+    return judge;
+  } catch (err) {
+    throw NotFoundError(`No judge with username '${username}' exists`);
+  }
+};
+
+const addOne = async (payload) => {
+  try {
+    const judge = await Judge.create(payload);
+    return judge;
+  } catch (err) {
+    throw AlreadyExists(
+      `Judge with username '${payload.username}' already exists`
+    );
+  }
+};
+
+const updateOne = async (username, payload) => {
+  try {
+    const judge = await Judge.findOneAndUpdate({ username }, payload);
+    return judge;
+  } catch (err) {
+    if (err.status) {
+      throw NotFoundError(`No judge with username '${username}' exists`);
     } else {
-      next(result);
+      throw AlreadyExists(
+        `Judge with username '${payload.username}' already exists`
+      );
     }
-  } catch (err) {
-    throw err;
-  } finally {
-    database.close();
   }
 };
 
-const addOne = async (record, next) => {
-  const database = connect();
-  const judges = database.get(collection);
-  let result = null;
+const deleteOne = async (username) => {
   try {
-    const validRecord = await validatePOST(record);
-    result = await judges.insert(validRecord);
-    next(result);
+    const judge = await Judge.findOneAndRemove({ username });
+    return judge;
   } catch (err) {
-    throw err;
-  } finally {
-    database.close();
-  }
-};
-
-const updateOne = async (username, record, next) => {
-  const database = connect();
-  const judges = database.get(collection);
-  try {
-    const validRecord = await validatePUT(record);
-    const result = await judges.update({ username }, { $set: validRecord });
-    if (result.n === 0) {
-      throw NotFoundError();
-    } else {
-      next(result);
-    }
-  } catch (err) {
-    throw err;
-  } finally {
-    database.close();
-  }
-};
-
-const deleteOne = async (username, next) => {
-  const database = connect();
-  const judges = database.get(collection);
-  try {
-    const result = await judges.remove({ username });
-    if (result.deletedCount === 0) {
-      throw NotFoundError();
-    } else {
-      next(result);
-    }
-  } catch (err) {
-    throw err;
-  } finally {
-    database.close();
+    throw NotFoundError(`No judge with username '${username}' exists`);
   }
 };
 

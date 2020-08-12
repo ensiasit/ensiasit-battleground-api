@@ -20,6 +20,18 @@ module.exports = (judge) => {
         });
     });
 
+    it("Should not add a new judge - Already exists", (done) => {
+      chai
+        .request(server)
+        .post("/api/judges")
+        .send(judge)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(403);
+          done();
+        });
+    });
+
     it("Should not add a new judge - name required", (done) => {
       const { name, ...invalidJudge } = judge;
       chai

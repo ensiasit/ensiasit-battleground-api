@@ -2,9 +2,12 @@
  * Imports
  */
 require("dotenv").config({ path: process.env.ENV_FILE_PATH || ".dev.env" });
+
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+
+const judgeValidation = require("./middlewares/judge");
 
 const judges = require("./routes/judge");
 
@@ -13,6 +16,8 @@ const judges = require("./routes/judge");
  */
 app.use(express.json());
 app.use(morgan("common"));
+
+app.use("/api/judges", judgeValidation);
 
 app.use("/api/judges", judges);
 
