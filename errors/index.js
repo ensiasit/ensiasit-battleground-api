@@ -10,7 +10,14 @@ const AlreadyExists = (message = "Alreasy Exists") => {
   return error;
 };
 
+const BadRequest = (message = "Bad Request") => {
+  const error = new Error(message);
+  error.status = 400;
+  return error;
+};
+
 module.exports = {
   NotFoundError,
   AlreadyExists,
+  BadRequest,
 };
