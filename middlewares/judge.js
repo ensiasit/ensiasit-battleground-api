@@ -20,7 +20,8 @@ const judgeValidation = async (req, res, next) => {
     }
     next();
   } catch (err) {
-    next(BadRequest(""));
+    err = BadRequest(err.message);
+    res.status(err.status).send(err.message);
   }
 };
 
