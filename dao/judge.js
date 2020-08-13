@@ -22,7 +22,6 @@ const getOne = async (username) => {
 
 const addOne = async (payload) => {
   try {
-    await Judge.init();
     const judge = await Judge.create(payload);
     return judge;
   } catch (err) {
