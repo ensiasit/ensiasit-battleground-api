@@ -9,6 +9,7 @@ const server = require("../../index");
 module.exports = (judge) => {
   describe("POST /api/judges", () => {
     it("Should add a new judge", (done) => {
+      console.log("POST");
       chai
         .request(server)
         .post("/api/judges")
@@ -21,6 +22,7 @@ module.exports = (judge) => {
     });
 
     it("Should not add a new judge - Already exists", (done) => {
+      console.log("!POST");
       chai
         .request(server)
         .post("/api/judges")
