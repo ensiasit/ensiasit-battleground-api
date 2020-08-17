@@ -4,7 +4,7 @@ const NotFoundError = (message = "Not Found") => {
   return error;
 };
 
-const AlreadyExists = (message = "Alreasy Exists") => {
+const AlreadyExists = (message = "Already Exists") => {
   const error = new Error(message);
   error.status = 403;
   return error;
