@@ -1,4 +1,7 @@
 const postTest = require("./post");
+const putTest = require("./put");
+const getTest = require("./get");
+const deleteTest = require("./delete");
 
 const contest = {
     name: "ENSIAS Coding Challenge",
@@ -9,4 +12,9 @@ const contest = {
 };
 
 postTest(contest);
+
 putTest(contest.name, "invalid-name", contest);
+
+getTest(contest.name, "invalid-name");
+
+deleteTest(contest.name, "invalid-name");
