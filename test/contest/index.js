@@ -9,3 +9,4 @@ const contest = {
 };
 
 postTest(contest);
+putTest(contest.name, "invalid-name", contest);
