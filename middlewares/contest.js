@@ -5,7 +5,7 @@ const schema = joi.object({
   name: joi.string().min(4).max(40).required(),
   description: joi.string().min(0).max(200).required(),
   logo: joi.string().required(),
-  starttime: joi.date.min('now').required(),
+  starttime: joi.date().min('now').required(),
   duration: joi.number().positive().required()
 });
 
