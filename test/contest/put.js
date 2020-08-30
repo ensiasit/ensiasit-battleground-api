@@ -48,6 +48,22 @@ module.exports = (name, notFoundName, contest) => {
         });
     });
 
+    it("Should not update the contest - description invalid", (done) => {
+      const invalidContest = {
+        ...contest,
+        description: "A".repeat(201),
+      };
+      chai
+        .request(server)
+        .put(`/api/contests/${name}`)
+        .send(invalidContest)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
     it("Should not update the contest - starttime invalid", (done) => {
       const invalidContest = {
         ...contest,
