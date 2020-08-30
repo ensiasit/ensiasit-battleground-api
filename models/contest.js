@@ -10,7 +10,7 @@ const contestSchema = mongoose.Schema({
   description: String,
   logo: {
     type: String,
-    default: '/default_logo.png'
+    default: "/default_logo.png"
   },
   starttime: Date,
   duration: Number,
