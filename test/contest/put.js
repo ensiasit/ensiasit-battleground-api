@@ -48,10 +48,10 @@ module.exports = (name, notFoundName, contest) => {
         });
     });
 
-    it("Should not update the contest - start_time invalid", (done) => {
+    it("Should not update the contest - starttime invalid", (done) => {
       const invalidContest = {
         ...contest,
-        start_time: "Should be a valid time",
+        starttime: "Should be a valid time",
       };
       chai
         .request(server)
@@ -64,12 +64,12 @@ module.exports = (name, notFoundName, contest) => {
         });
     });
 
-    it("Should not update the contest - start_time is less than current time", (done) => {
+    it("Should not update the contest - starttime is less than current time", (done) => {
       var d = new Date();
       d.setDate(d.getDate()-1);
       const invalidContest = {
         ...contest,
-        start_time: d,
+        starttime: d.toISOString(),
       };
       chai
         .request(server)

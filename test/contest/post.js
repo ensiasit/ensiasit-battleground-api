@@ -46,7 +46,7 @@ module.exports = (contest) => {
     });
 
     it("Should not add a new contest - description required", (done) => {
-      const { description, ...invalidContest } = problem;
+      const { description, ...invalidContest } = contest;
       chai
         .request(server)
         .post("/api/contests")
@@ -71,8 +71,8 @@ module.exports = (contest) => {
         });
     });
 
-    it("Should not add a new contest - start_time required", (done) => {
-      const { start_time, ...invalidContest } = contest;
+    it("Should not add a new contest - starttime required", (done) => {
+      const { starttime, ...invalidContest } = contest;
       chai
         .request(server)
         .post("/api/contests")
