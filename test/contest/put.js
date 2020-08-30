@@ -85,7 +85,7 @@ module.exports = (name, notFoundName, contest) => {
       d.setDate(d.getDate()-1);
       const invalidContest = {
         ...contest,
-        starttime: d.toISOString(),
+        starttime: d,
       };
       chai
         .request(server)
