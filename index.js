@@ -8,9 +8,11 @@ const app = express();
 const morgan = require("morgan");
 
 const judgeValidation = require("./middlewares/judge");
+const contestValidation = require("./middlewares/contest");
 const problemValidation = require("./middlewares/problem");
 
 const judges = require("./routes/judge");
+const contests = require("./routes/contest");
 const problems = require("./routes/problem");
 
 /**
@@ -20,9 +22,11 @@ app.use(express.json());
 app.use(morgan("common"));
 
 app.use("/api/judges", judgeValidation);
+app.use("/api/contests", contestValidation);
 app.use("/api/problems", problemValidation);
 
 app.use("/api/judges", judges);
+app.use("/api/contests", contests);
 app.use("/api/problems", problems);
 
 const port = process.env.SERVER_PORT || 80;
