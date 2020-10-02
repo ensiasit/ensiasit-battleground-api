@@ -4,9 +4,9 @@ const getTest = require("./get");
 const deleteTest = require("./delete");
 
 const problem = {
-    slug: "PB-0152D",
+    slug: "mouna-and-strings",
     title: "Mouna and strings",
-    code: "B",
+    code: "C",
     points: 100,
     colour: "Blue",
     verification_required: false, 

@@ -112,7 +112,7 @@ module.exports = (problem) => {
 
     it("Should not add a new problem - Title invalid", (done) => {
       const invalidProblem = {
-        ...judge,
+        ...problem,
         title: "A very long long long title is not supported",
       };
       chai
